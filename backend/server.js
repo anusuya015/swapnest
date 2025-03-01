@@ -2,6 +2,7 @@ import path from "path";
 import express from "express";
 
 import dotenv from "dotenv";
+import sgMail from "@sendgrid/mail";
 
 import connectDB from "./config/db.js";
 import productRoutes from "./routes/productRoutes.js";
@@ -9,13 +10,12 @@ import userRoutes from "./routes/userRoutes.js";
 import uploadRoutes from "./routes/uploadRoutes.js";
 
 dotenv.config();
-console.log("MongoDB URI:", process.env.MONGO_URI);
-console.log("Cloudinary URL:", process.env.CLOUDINARY_URL);
 
 connectDB();
 
 const app = express();
 app.use(express.json());
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 app.use("/api/products", productRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/uploads", uploadRoutes);
