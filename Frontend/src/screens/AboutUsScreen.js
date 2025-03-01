@@ -1,12 +1,12 @@
-import React from 'react'
-import { Row, Col, Button } from 'react-bootstrap'
+import React from "react";
+import { Row, Col, Button } from "react-bootstrap";
 
 const AboutUsScreen = () => {
   return (
-    <div className='aboutbody'>
+    <div className="aboutbody">
       <Row md={3}>
         <Col md={3}></Col>
-        <Col md={6} className='aboutpage'>
+        <Col md={6} className="aboutpage">
           <h1>Who are We?</h1>
           <p>
             Actually We are not any professionals. This website has been created
@@ -23,25 +23,20 @@ const AboutUsScreen = () => {
       </Row>
       <Row>
         <Col md={3}></Col>
-        <Col md={6} className='aboutpage1'>
-          <h1>Developer</h1>
-          <p>
-            Designed and developed by{' '}
-            Sourav Manna{' '}
-          </p>
+        <Col md={6} className="aboutpage1">
           <h3>Contact Details</h3>
-          <i className='fas fa-phone'></i> 703*****02
+          <i className="fas fa-phone"></i> 180020204888
           <br />
-          <i className='fas fa-envelope-square'></i>{' '}
-          <a target='_blank' href={`mailto:mannasourav111@gmail.com`}>
-            mannasourav111@gmail.com
+          <i className="fas fa-envelope-square"></i>{" "}
+          <a target="_blank" href={`mailto:secondhandgoods@gmail.com`}>
+            secondhandgoods@gmail.com
           </a>
           <br />
         </Col>
         <Col md={3}></Col>
       </Row>
     </div>
-  )
-}
+  );
+};
 
-export default AboutUsScreen
+export default AboutUsScreen;
