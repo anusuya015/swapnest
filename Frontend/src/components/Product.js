@@ -5,7 +5,7 @@ import "./Product.css"; // Import custom styles
 
 const Product = ({ product }) => {
   const [currentImage, setCurrentImage] = useState(
-    product.images[0]?.image1 || "default-image.jpg"
+    product.images.length > 0 ? product.images[0] : "default-image.jpg"
   );
 
   return (
@@ -26,7 +26,7 @@ const Product = ({ product }) => {
             <strong>{product.name}</strong>
           </Card.Title>
         </Link>
-        <Card.Text as="h3">Rs {product.Cost.price}</Card.Text>
+        <Card.Text as="h3">Rs {product.price}</Card.Text>
       </Card.Body>
     </Card>
   );
