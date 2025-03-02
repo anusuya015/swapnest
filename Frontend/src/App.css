@@ -66,6 +66,35 @@ a:-webkit-any-link {
     margin-top: 10px;
    
   }
+  .product-image {
+    width: 100%;
+    height: auto;
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .product-image.zoomed {
+    transform: scale(1.2);
+  }
+  
+  .image-container {
+    overflow: hidden;
+    width: 100%;
+  }
+  .product-image {
+    width: 100%;
+    height: auto;
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .product-image.zoomed {
+    transform: scale(1.2);
+  }
+  
+  .image-container {
+    overflow: hidden;
+    width: 100%;
+  }
+    
 
   .description p{
     line-height: 2

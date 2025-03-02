@@ -27,7 +27,7 @@ const Header = () => {
             <Nav className='ml-auto'>
               {userData ? (
                 <NavDropdown
-                  title={`Signed in as ${userData.name}`}
+                  title={`${userData.name}`}
                   id='username'
                 >
                   <LinkContainer to={`/admin/users/${userData._id}/edit`}>
