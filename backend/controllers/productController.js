@@ -34,15 +34,21 @@ const getProductById = asyncHandler(async (req, res) => {
   }
 });
 
-//  Delete Product By ID (Admin)
 const deleteProduct = asyncHandler(async (req, res) => {
   const product = await Product.findById(req.params.id);
-  if (product) {
-    await product.deleteOne(); // Updated from remove()
-    res.status(200).json({ message: "Product removed" });
-  } else {
+
+  if (!product) {
     res.status(404);
     throw new Error("Product not found");
+  }
+
+  // Check if the logged-in user is the owner OR an admin
+  if (product.user.toString() === req.user._id.toString() || req.user.isAdmin) {
+    await product.deleteOne();
+    res.json({ message: "Product removed" });
+  } else {
+    res.status(403); // 403 = Forbidden
+    throw new Error("Not authorized to delete this product");
   }
 });
 

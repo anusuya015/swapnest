@@ -27,7 +27,7 @@ export const productListReducer = (state = { products: [] }, action) => {
     case PRODUCT_LIST_REQUEST:
       return {
         loading: true,
-      }
+      };
 
     case PRODUCT_LIST_SUCCESS:
       return {
@@ -35,17 +35,25 @@ export const productListReducer = (state = { products: [] }, action) => {
         products: action.payload.products,
         pages: action.payload.pages,
         page: action.payload.page,
-      }
+      };
+
     case PRODUCT_LIST_FAIL:
       return {
         loading: false,
         error: action.payload,
-      }
+      };
+
+    // ✅ Remove deleted product from the list instantly
+    case PRODUCT_DELETE_SUCCESS:
+      return {
+        ...state,
+        products: state.products.filter((product) => product._id !== action.payload),
+      };
 
     default:
-      return state
+      return state;
   }
-}
+};
 
 export const productDetailsReducer = (
   state = { product: { reviews: [], images: [] } },
