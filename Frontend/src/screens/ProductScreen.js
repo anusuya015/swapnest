@@ -56,13 +56,14 @@ const ProductScreen = ({ match, history }) => {
     dispatch(listProductDetails(match.params.id));
   }, [match.params.id, dispatch, successReview]);
 
-  const submitHandler = (e) => {
-    e.preventDefault();
-    dispatch(createProductReview(match.params.id, comment));
-  };
-
+  // ✅ Email Form Submit Handler
   const emailSubmit = (e) => {
     e.preventDefault();
+
+    if (!text.trim()) {
+      return;
+    }
+
     setEmailSent(true);
 
     dispatch(
@@ -84,10 +85,13 @@ const ProductScreen = ({ match, history }) => {
     }, 10000);
   };
 
+  
   const sendEMAIL = () => {
+    
     setSendMail(true);
   };
 
+ 
   const cancelHandler = () => {
     setSendMail(false);
   };
@@ -194,10 +198,28 @@ const ProductScreen = ({ match, history }) => {
                   </ul>
                 </Col>
               </Row>
-            </Col>
-          </Row>
 
-          <Row className="mt-3">
+              {sendMail && (
+                <Form onSubmit={emailSubmit}>
+                  <Form.Group controlId="emailText">
+                    <Form.Label>Enter your message:</Form.Label>
+                    <Form.Control
+                      as="textarea"
+                      rows={3}
+                      value={text}
+                      onChange={(e) => setText(e.target.value)}
+                    />
+                  </Form.Group>
+                  <Button type="submit" variant="primary">
+                    Send
+                  </Button>
+                  <Button variant="danger" onClick={cancelHandler} className="ml-2">
+                    Cancel
+                  </Button>
+                </Form>
+              )}
+            </Col>
+          </Row>  <Row className="mt-3">
             <Col className="borderaround mt-5" md={10}>
               <p className="details">
                 <i className="fas fa-info"></i> Pricing Details
