@@ -1,20 +1,23 @@
-import './App.css'
-import { Container } from 'react-bootstrap'
-import Header from './components/Header'
-import Landing from '../src/screens/Landing'
-import Footer from './components/Footer'
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
-import ProductScreen from '../src/screens/ProductScreen'
-import LoginScreen from '../src/screens/LoginScreen'
-import RegisterScreen from '../src/screens/RegisterScreen'
-import UserListScreen from '../src/screens/UserListScreen'
-import ProductListScreen from '../src/screens/ProductListScreen'
-import ProductEditScreen from '../src/screens/ProductEditScreen'
-import UserUpdateScreen from '../src/screens/UserUpdateScreen'
-import AboutUsScreen from '../src/screens/AboutUsScreen'
-import NotFoundScreen from './screens/NotFoundScreen'
-import ProductCreateScreen from '../src/screens/ProductCreateScreen'
-import EmailVerificationScreen from '../src/screens/EmailVerificationScreen'
+import './App.css';
+import { Container } from 'react-bootstrap';
+import Header from './components/Header';
+import Footer from './components/Footer';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import Landing from './screens/Landing';
+import ProductScreen from './screens/ProductScreen';
+import LoginScreen from './screens/LoginScreen';
+import RegisterScreen from './screens/RegisterScreen';
+import UserListScreen from './screens/UserListScreen';
+import ProductListScreen from './screens/ProductListScreen';
+import ProductEditScreen from './screens/ProductEditScreen';
+import UserUpdateScreen from './screens/UserUpdateScreen';
+import AboutUsScreen from './screens/AboutUsScreen';
+import NotFoundScreen from './screens/NotFoundScreen';
+import ProductCreateScreen from './screens/ProductCreateScreen';
+import EmailVerificationScreen from './screens/EmailVerificationScreen';
+import CartPage from './screens/CartPage'; // Import CartPage
+import CheckoutPage from './screens/CheckoutPage'; // Import CheckoutPage
+import InvoicePage from './screens/InvoicePage';
 
 const App = () => {
   return (
@@ -37,11 +40,7 @@ const App = () => {
               <Route path='/register' component={RegisterScreen} exact />
               <Route path='/about' component={AboutUsScreen} exact />
               <Route path='/product/:id' component={ProductScreen} exact />
-              <Route
-                path='/admin/userlist'
-                component={UserListScreen}
-                exact
-              />{' '}
+              <Route path='/admin/userlist' component={UserListScreen} exact />
               <Route
                 path='/admin/productlist'
                 component={ProductListScreen}
@@ -63,11 +62,14 @@ const App = () => {
                 component={UserUpdateScreen}
                 exact
               />
-              <Route
-                path='/verify/:token'
-                component={EmailVerificationScreen}
-                exact
-              />
+              <Route path='/verify/:token' component={EmailVerificationScreen} exact />
+              
+              {/* Add Routes for Cart and Checkout */}
+              <Route path='/cart' component={CartPage} exact /> {/* Cart page route */}
+              <Route path='/checkout' component={CheckoutPage} exact /> {/* Checkout page route */}
+              <Route path="/invoice" component={InvoicePage} />
+
+              {/* Fallback route */}
               <Route component={NotFoundScreen} />
             </Switch>
           </Container>
@@ -75,7 +77,7 @@ const App = () => {
       </>
       <Footer />
     </Router>
-  )
-}
+  );
+};
 
-export default App
+export default App;

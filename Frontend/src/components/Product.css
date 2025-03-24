@@ -2,7 +2,7 @@
 .product-card {
   width: 100%;
   max-width: 350px; /* Adjust based on layout */
-  height: 400px; /* Set a fixed height */
+  height: 560px; /* Set a fixed height */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s ease-in-out;
   overflow: hidden;

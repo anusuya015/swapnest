@@ -4,14 +4,25 @@ import { LinkContainer } from 'react-router-bootstrap'
 import { logout } from '../actions/userActions'
 import { useDispatch, useSelector } from 'react-redux'
 import SearchBox from './SearchBox'
-import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap'
+import { Navbar, Nav, Container, NavDropdown, Badge } from 'react-bootstrap'
+
 const Header = () => {
   const dispatch = useDispatch()
   const userLogin = useSelector((state) => state.userLogin)
   const { userData } = userLogin
+
+  // Function to get cart items count from localStorage (or Redux if needed)
+  const getCartItemsCount = () => {
+    const cart = JSON.parse(localStorage.getItem('cart')) || []
+    return cart.length
+  }
+
+  const cartItemCount = getCartItemsCount()  // Cart item count
+
   const logoutHandler = () => {
     dispatch(logout())
   }
+
   return (
     <header>
       <Navbar bg='dark' variant='dark' expand='lg' collapseOnSelect>
@@ -26,16 +37,11 @@ const Header = () => {
 
             <Nav className='ml-auto'>
               {userData ? (
-                <NavDropdown
-                  title={`${userData.name}`}
-                  id='username'
-                >
+                <NavDropdown title={`${userData.name}`} id='username'>
                   <LinkContainer to={`/admin/users/${userData._id}/edit`}>
                     <NavDropdown.Item>Profile</NavDropdown.Item>
                   </LinkContainer>
-                  <NavDropdown.Item onClick={logoutHandler}>
-                    Logout
-                  </NavDropdown.Item>
+                  <NavDropdown.Item onClick={logoutHandler}>Logout</NavDropdown.Item>
                 </NavDropdown>
               ) : (
                 <LinkContainer to='/login'>
@@ -52,15 +58,21 @@ const Header = () => {
                   <LinkContainer to='/admin/productlist'>
                     <NavDropdown.Item>Products</NavDropdown.Item>
                   </LinkContainer>
-                  {/* <NavDropdown.Item onClick={logoutHandler}>
-                    Logout
-                  </NavDropdown.Item> */}
                 </NavDropdown>
               )}
               <LinkContainer to='/about'>
+                <Nav.Link>About Us</Nav.Link>
+              </LinkContainer>
+
+              {/* Cart Icon with Item Count */}
+              <LinkContainer to='/cart'>
                 <Nav.Link>
-                  {/* <i className='far fa-address-card'></i>  */}
-                  About Us
+                  <i className='fas fa-shopping-cart'></i>
+                  {cartItemCount > 0 && (
+                    <Badge pill variant='danger' style={{ position: 'absolute', top: '0', right: '0' }}>
+                      {cartItemCount}
+                    </Badge>
+                  )}
                 </Nav.Link>
               </LinkContainer>
             </Nav>
