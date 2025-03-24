@@ -20,7 +20,28 @@ import {
   PRODUCT_REVIEW_SUCCESS,
   PRODUCT_REVIEW_FAIL,
 } from "../types/productConstants";
+import { PRODUCT_REVIEW_DELETE_SUCCESS, PRODUCT_REVIEW_DELETE_FAIL } from '../types/productConstants';
 
+export const deleteProductReview = (productId, reviewId) => async (dispatch, getState) => {
+  try {
+    const { userLogin: { userData } } = getState();
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userData.token}`,
+      },
+    };
+
+    await axios.delete(`/api/products/${productId}/reviews/${reviewId}`, config);
+
+    dispatch({ type: PRODUCT_REVIEW_DELETE_SUCCESS, payload: reviewId });
+  } catch (error) {
+    dispatch({
+      type: PRODUCT_REVIEW_DELETE_FAIL,
+      payload: error.response?.data?.message || error.message,
+    });
+  }
+};
 // ✅ Fetch all products with search & pagination
 export const listProducts =
   (keyword = "", pageNumber = "") =>

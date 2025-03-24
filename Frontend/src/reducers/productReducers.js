@@ -20,7 +20,10 @@ import {
   PRODUCT_REVIEW_REQUEST,
   PRODUCT_REVIEW_SUCCESS,
   PRODUCT_REVIEW_FAIL,
-  PRODUCT_REVIEW_RESET,
+  PRODUCT_REVIEW_RESET,  
+  PRODUCT_REVIEW_DELETE_REQUEST,
+  PRODUCT_REVIEW_DELETE_SUCCESS,
+  PRODUCT_REVIEW_DELETE_FAIL,
 } from '../types/productConstants'
 export const productListReducer = (state = { products: [] }, action) => {
   switch (action.type) {
@@ -187,3 +190,15 @@ export const productReviewCreateReducer = (state = {}, action) => {
       return state
   }
 }
+export const productReviewDeleteReducer = (state = {}, action) => {
+  switch (action.type) {
+    case PRODUCT_REVIEW_DELETE_REQUEST:
+      return { loading: true };
+    case PRODUCT_REVIEW_DELETE_SUCCESS:
+      return { loading: false, success: true };
+    case PRODUCT_REVIEW_DELETE_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};

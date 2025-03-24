@@ -1,5 +1,6 @@
 import asyncHandler from "express-async-handler";
 import Product from "../models/productModel.js";
+import mongoose from "mongoose";
 
 //  Fetch All Products with Keyword Search & Pagination
 const getProducts = asyncHandler(async (req, res) => {
@@ -189,6 +190,41 @@ const reviewProduct = asyncHandler(async (req, res) => {
   await product.save();
   res.status(201).json({ message: "Review successfully added" });
 });
+// DELETE Review - Only the user who posted it can delete
+const deleteProductReview = asyncHandler(async (req, res) => {
+  const { id, reviewId } = req.params;
+
+  // Check if the IDs are valid MongoDB ObjectIds
+  if (!mongoose.Types.ObjectId.isValid(id) || !mongoose.Types.ObjectId.isValid(reviewId)) {
+    return res.status(400).json({ message: "Invalid Product or Review ID" });
+  }
+
+  // Find the product
+  const product = await Product.findById(id);
+  if (!product) {
+    return res.status(404).json({ message: "Product not found" });
+  }
+
+  // Find the review
+  const reviewIndex = product.reviews.findIndex(
+    (r) => r._id.toString() === reviewId
+  );
+
+  if (reviewIndex === -1) {
+    return res.status(404).json({ message: "Review not found" });
+  }
+
+  // Check if the logged-in user is the one who posted the review
+  if (product.reviews[reviewIndex].user.toString() !== req.user._id.toString()) {
+    return res.status(403).json({ message: "You can only delete your own review" });
+  }
+
+  // Remove the review
+  product.reviews.splice(reviewIndex, 1);
+  await product.save();
+
+  res.status(200).json({ message: "Review deleted successfully" });
+});
 
 export {
   getProducts,
@@ -197,4 +233,5 @@ export {
   createProduct,
   updateProduct,
   reviewProduct,
+  deleteProductReview
 };
