@@ -56,8 +56,7 @@ const Landing = ({ match }) => {
         <Col>
           <h3> Latest Items On Sale</h3>
         </Col>
-        
-        {/* ✅ SELL Button - Restored */}
+     
         <Col className="text-right">
           <LinkContainer to={userData ? "/createproduct" : "/login"}>
             <Button className="btn-primary">

@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-import { Form, Button } from "react-bootstrap";
+import { Form, Button, Row, Col } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
@@ -115,13 +115,98 @@ const ProductEditScreen = ({ match, history }) => {
           <Message variant="danger">{error}</Message>
         ) : (
           <Form onSubmit={submitHandler}>
-            <Form.Group controlId="name">
-              <Form.Label>Name of the product</Form.Label>
+            <Row>
+              <Col md={6}>
+                <Form.Group controlId="name">
+                  <Form.Label>Name of the product</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Enter product name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                  />
+                </Form.Group>
+              </Col>
+              <Col md={6}>
+                <Form.Group controlId="category">
+                  <Form.Label>Category</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Enter category (electronics, books, furniture...)"
+                    value={category}
+                    onChange={(e) => setCategory(e.target.value)}
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
+
+            <Form.Group controlId="description">
+              <Form.Label>Describe your product</Form.Label>
               <Form.Control
-                type="text"
-                placeholder="Enter product name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+                as="textarea"
+                placeholder="Enter description"
+                rows="3"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                required
+              />
+            </Form.Group>
+
+            <Row>
+              <Col md={6}>
+                <Form.Group controlId="expiresOn">
+                  <Form.Label>How long is your product for sale?</Form.Label>
+                  <Form.Control
+                    type="date"
+                    value={expiresOn}
+                    onChange={(e) => setExpiresOn(e.target.value)}
+                  />
+                </Form.Group>
+              </Col>
+              <Col md={6}>
+                <Form.Group controlId="price">
+                  <Form.Label>Price</Form.Label>
+                  <Form.Control
+                    type="number"
+                    placeholder="Enter price"
+                    value={price}
+                    onChange={(e) => setPrice(e.target.value)}
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
+
+            <Row>
+              <Col md={6}>
+                <Form.Group controlId="shippingAddress">
+                  <Form.Label>Shipping Address</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Enter delivery location"
+                    value={shippingAddress}
+                    onChange={(e) => setShippingAddress(e.target.value)}
+                  />
+                </Form.Group>
+              </Col>
+              <Col md={6}>
+                <Form.Group controlId="shippingCharge">
+                  <Form.Label>Shipping Charge</Form.Label>
+                  <Form.Control
+                    type="number"
+                    placeholder="Enter shipping charge"
+                    value={shippingCharge}
+                    onChange={(e) => setShippingCharge(e.target.value)}
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
+
+            <Form.Group controlId="negotiable" className="mb-5 mt-5">
+              <Form.Check
+                type="checkbox"
+                label="Is the price negotiable?"
+                checked={negotiable}
+                onChange={(e) => setNegotiable(e.target.checked)}
               />
             </Form.Group>
 
@@ -148,82 +233,13 @@ const ProductEditScreen = ({ match, history }) => {
               {uploading && <Loader />}
             </Form.Group>
 
-            <Form.Group controlId="category">
-              <Form.Label>Category</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Enter category (electronics, books, furniture...)"
-                value={category}
-                onChange={(e) => setCategory(e.target.value)}
-              />
-            </Form.Group>
-
-            <Form.Group controlId="description">
-              <Form.Label>Describe your product</Form.Label>
-              <Form.Control
-                as="textarea"
-                placeholder="Enter description"
-                rows="3"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                required
-              />
-            </Form.Group>
-
-            <Form.Group controlId="expiresOn">
-              <Form.Label>How long is your product for sale?</Form.Label>
-              <Form.Control
-                type="date"
-                value={expiresOn}
-                onChange={(e) => setExpiresOn(e.target.value)}
-              />
-            </Form.Group>
-
-            <Form.Group controlId="price">
-              <Form.Label>Price</Form.Label>
-              <Form.Control
-                type="number"
-                placeholder="Enter price"
-                value={price}
-                onChange={(e) => setPrice(e.target.value)}
-              />
-            </Form.Group>
-
-            <Form.Group className="mb-5 mt-5" controlId="negotiable">
-              <Form.Check
-                type="checkbox"
-                label="Is the price negotiable?"
-                checked={negotiable}
-                onChange={(e) => setNegotiable(e.target.checked)}
-              />
-            </Form.Group>
-
-            <Form.Group controlId="shippingAddress">
-              <Form.Label>Shipping Address</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Enter delivery location"
-                value={shippingAddress}
-                onChange={(e) => setShippingAddress(e.target.value)}
-              />
-            </Form.Group>
-
-            <Form.Group controlId="shippingCharge">
-              <Form.Label>Shipping Charge</Form.Label>
-              <Form.Control
-                type="number"
-                placeholder="Enter shipping charge"
-                value={shippingCharge}
-                onChange={(e) => setShippingCharge(e.target.value)}
-              />
-            </Form.Group>
-
             <Button className="mb-2" type="submit" variant="primary">
               Update
             </Button>
           </Form>
         )}
       </FormContainer>
+
       {loadingUpdate && <Loader />}
       {errorUpdate && <Message variant="danger">{errorUpdate}</Message>}
     </>
