@@ -8,7 +8,7 @@ import connectDB from "./config/db.js";
 import productRoutes from "./routes/productRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import uploadRoutes from "./routes/uploadRoutes.js";
-import paymentController from './controllers/paymetController.js'
+import paymentRoutes from './routes/paymentRoutes.js';
 dotenv.config();
 
 connectDB();
@@ -57,6 +57,6 @@ app.use((err, req, res, next) => {
 
 
 // Create payment order
-app.use("/create-order",paymentController );
+app.use("/payment",paymentRoutes );
 const PORT = process.env.PORT || 5001;
 app.listen(PORT, console.log(`Server is running on port ${PORT}`));
