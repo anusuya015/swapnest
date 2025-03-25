@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Meta from "../components/Meta";
+import '../components/Product.css';
+import axios from "axios";
 import {
   Row,
   Col,
@@ -90,6 +92,53 @@ const ProductScreen = ({ match, history }) => {
 
   const cancelHandler = () => {
     setSendMail(false);
+  };
+  const handlePayment = async () => {
+  
+    try {
+      // Step 1: Create Order
+      const { data } = await axios.post("http://localhost:5000/create-order", {
+        amount: product?.Cost?.price,    // Replace with actual amount
+        currency: "INR",
+        receipt: "order_rcptid_11",
+      });
+
+      const options = {
+        key: "rzp_test_dkrO59FMp7ggDP",
+        amount: product?.Cost?.price * 100, // Amount in paisa
+        currency: "INR",
+        name: "E-commerce Store",
+        description: "Test Transaction",
+        order_id: data.orderId,
+        handler: async function (response) {
+          const paymentData = {
+            razorpay_order_id: response.razorpay_order_id,
+            razorpay_payment_id: response.razorpay_payment_id,
+            razorpay_signature: response.razorpay_signature,
+          };
+
+          // Step 3: Verify Payment
+          const verifyRes = await axios.post("http://localhost:5000/verify-payment", paymentData);
+          
+        },
+        prefill: {
+          name: "Harsh Balam",
+          email: "harsh@example.com",
+          contact: "9999999999",
+        },
+        theme: {
+          color: "#28a745",
+        },
+      };
+
+      const razorpay = new window.Razorpay(options);
+      razorpay.open();
+    } catch (error) {
+      console.error("Payment Error:", error);
+     
+    } finally {
+      
+    }
   };
 
   return (
@@ -249,8 +298,17 @@ const ProductScreen = ({ match, history }) => {
               </Row>
             </Col>
           </Row>
+         
+      <button
+        className="emailbutton btn-success button "
+        onClick={handlePayment}
+      >
+        Buy Now
+      </button>
+      
         </>
       )}
+      
     </>
   );
 };

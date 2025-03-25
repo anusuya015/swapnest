@@ -77,3 +77,16 @@
   color: #4a4a4a;
   font-weight: bold;
 }
+
+.buy-container{
+ width: 100%;
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ padding: 30px;
+}
+.button{
+  padding:10px;
+  margin: auto;
+  margin-top: 30px;
+}
