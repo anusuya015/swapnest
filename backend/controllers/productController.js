@@ -2,7 +2,6 @@ import asyncHandler from "express-async-handler";
 import Product from "../models/productModel.js";
 import mongoose from "mongoose";
 
-//  Fetch All Products with Keyword Search & Pagination
 const getProducts = asyncHandler(async (req, res) => {
   const pageSize = 6;
   const page = Number(req.query.pageNumber) || 1;
@@ -10,19 +9,25 @@ const getProducts = asyncHandler(async (req, res) => {
     ? { name: { $regex: req.query.keyword, $options: "i" } }
     : {};
 
-  const count = await Product.countDocuments({ ...keyword });
-  const products = await Product.find({ ...keyword }) // ✅ Applied filter
+  // ✅ Debugging: Log the received category
+  console.log("Received Category:", req.query.category);
+
+  // ✅ Fix category filtering
+  const categoryFilter =
+    req.query.category && req.query.category !== "All"
+      ? { category: req.query.category }
+      : {};
+
+  // ✅ Debugging: Log the applied filter
+  console.log("Applied Filter:", { ...keyword, ...categoryFilter });
+
+  const count = await Product.countDocuments({ ...keyword, ...categoryFilter });
+  const products = await Product.find({ ...keyword, ...categoryFilter })
     .sort({ createdAt: -1 })
     .limit(pageSize)
     .skip(pageSize * (page - 1));
 
-  if (products.length !== 0) {
-    res
-      .status(200)
-      .json({ products, page, pages: Math.ceil(count / pageSize) });
-  } else {
-    res.status(404).json({ message: "No match found" });
-  }
+  res.status(200).json({ products, page, pages: Math.ceil(count / pageSize) });
 });
 
 //  Fetch Product By ID
