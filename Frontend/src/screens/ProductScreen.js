@@ -478,7 +478,7 @@ const ProductScreen = ({ match, history }) => {
           {paymentError}
         </Alert>
       )}
-      <Button onClick={handlePayment}
+      <Button  className='btn btn-success' o onClick={handlePayment}
       disabled={isPaymentProcessing || !razorpayLoaded || !userData}
       >
         {isPaymentProcessing ? 'Processing...' : 'Buy Now'}
