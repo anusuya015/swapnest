@@ -20,14 +20,17 @@ import {
   PRODUCT_REVIEW_REQUEST,
   PRODUCT_REVIEW_SUCCESS,
   PRODUCT_REVIEW_FAIL,
-  PRODUCT_REVIEW_RESET,
+  PRODUCT_REVIEW_RESET,  
+  PRODUCT_REVIEW_DELETE_REQUEST,
+  PRODUCT_REVIEW_DELETE_SUCCESS,
+  PRODUCT_REVIEW_DELETE_FAIL,
 } from '../types/productConstants'
 export const productListReducer = (state = { products: [] }, action) => {
   switch (action.type) {
     case PRODUCT_LIST_REQUEST:
       return {
         loading: true,
-      }
+      };
 
     case PRODUCT_LIST_SUCCESS:
       return {
@@ -35,17 +38,25 @@ export const productListReducer = (state = { products: [] }, action) => {
         products: action.payload.products,
         pages: action.payload.pages,
         page: action.payload.page,
-      }
+      };
+
     case PRODUCT_LIST_FAIL:
       return {
         loading: false,
         error: action.payload,
-      }
+      };
+
+    // ✅ Remove deleted product from the list instantly
+    case PRODUCT_DELETE_SUCCESS:
+      return {
+        ...state,
+        products: state.products.filter((product) => product._id !== action.payload),
+      };
 
     default:
-      return state
+      return state;
   }
-}
+};
 
 export const productDetailsReducer = (
   state = { product: { reviews: [], images: [] } },
@@ -179,3 +190,15 @@ export const productReviewCreateReducer = (state = {}, action) => {
       return state
   }
 }
+export const productReviewDeleteReducer = (state = {}, action) => {
+  switch (action.type) {
+    case PRODUCT_REVIEW_DELETE_REQUEST:
+      return { loading: true };
+    case PRODUCT_REVIEW_DELETE_SUCCESS:
+      return { loading: false, success: true };
+    case PRODUCT_REVIEW_DELETE_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
