@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useState, useEffect } from "react";
 import Meta from "../components/Meta";
 import '../components/Product.css';
-import axios from "axios";
+
 
 import {
   Row,
@@ -13,6 +13,7 @@ import {
   Button,
   Form,
   Modal,
+  Alert
 } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -34,7 +35,10 @@ const ProductScreen = ({ match, history }) => {
   const [emailSent, setEmailSent] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [selectedImage, setSelectedImage] = useState("");
-
+  const [paymentError, setPaymentError] = useState(null);
+  const [isPaymentProcessing, setIsPaymentProcessing] = useState(false);
+  const [razorpayLoaded, setRazorpayLoaded] = useState(false);
+  
   const dispatch = useDispatch();
   const emailReducer = useSelector((state) => state.emailReducer);
   const { loading: loadingEmail, error: errorEmail, data: dataEmail } = emailReducer;
@@ -68,6 +72,51 @@ const ProductScreen = ({ match, history }) => {
     }
     dispatch(listProductDetails(match.params.id));
   }, [match.params.id, dispatch, successReview]);
+
+  useEffect(() => {
+    // Load Razorpay script
+    const loadRazorpayScript = () => {
+      return new Promise((resolve, reject) => {
+        if (window.Razorpay) {
+          setRazorpayLoaded(true);
+          resolve(window.Razorpay);
+          return;
+        }
+
+        const script = document.createElement('script');
+        script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+        script.async = true;
+        
+        script.onload = () => {
+          setRazorpayLoaded(true);
+          resolve(window.Razorpay);
+        };
+        
+        script.onerror = () => {
+          setRazorpayLoaded(false);
+          reject(new Error('Failed to load Razorpay SDK'));
+        };
+
+        document.body.appendChild(script);
+      });
+    };
+
+    loadRazorpayScript()
+      .catch(error => {
+        console.error('Razorpay SDK load error:', error);
+        setPaymentError('Failed to load payment gateway. Please try again later.');
+      });
+
+    return () => {
+      // Cleanup if needed
+      const existingScript = document.querySelector('script[src="https://checkout.razorpay.com/v1/checkout.js"]');
+      if (existingScript) {
+        document.body.removeChild(existingScript);
+      }
+    };
+  }, []);
+
+
 
   const emailSubmit = (e) => {
     e.preventDefault();
@@ -113,51 +162,85 @@ const ProductScreen = ({ match, history }) => {
       }
     }
   };
-  const handlePayment = async () => {
   
+  const handlePayment = async () => {
+    // Validate user and Razorpay SDK
+    if (!userData) {
+      history.push('/login');
+      return;
+    }
+
+    if (!razorpayLoaded) {
+      setPaymentError('Payment gateway is not fully loaded. Please try again.');
+      return;
+    }
+
+    setIsPaymentProcessing(true);
+    setPaymentError(null);
+
     try {
+      // Create a truncated, unique receipt ID
+      const receipt = `order_${product._id.slice(-20)}_${Date.now()}`.slice(0, 40);
+
       // Step 1: Create Order
-      const { data } = await axios.post("http://localhost:5000/create-order", {
-        amount: product?.Cost?.price,    // Replace with actual amount
+      const { data } = await axios.post("http://localhost:5000/payment/create-order", {
+        amount: product?.Cost?.price,
         currency: "INR",
-        receipt: "order_rcptid_11",
+        receipt: receipt,
       });
 
       const options = {
-        key: "rzp_test_dkrO59FMp7ggDP",
+        key: process.env.REACT_APP_RAZORPAY_KEY_ID || "rzp_test_dkrO59FMp7ggDP",
         amount: product?.Cost?.price * 100, // Amount in paisa
         currency: "INR",
-        name: "E-commerce Store",
-        description: "Test Transaction",
+        name: "SecondHand Marketplace",
+        description: `Purchase of ${product.name}`,
         order_id: data.orderId,
         handler: async function (response) {
-          const paymentData = {
-            razorpay_order_id: response.razorpay_order_id,
-            razorpay_payment_id: response.razorpay_payment_id,
-            razorpay_signature: response.razorpay_signature,
-          };
+          try {
+            // Step 2: Verify Payment
+            const verifyRes = await axios.post("http://localhost:5000/payment/verify", {
+              razorpay_order_id: response.razorpay_order_id,
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_signature: response.razorpay_signature,
+              product_id: product._id,
+              user_id: userData._id
+            });
 
-          // Step 3: Verify Payment
-          const verifyRes = await axios.post("http://localhost:5000/verify-payment", paymentData);
-          
+            // Payment successful
+            alert('Payment Successful! Product will be processed soon.');
+          } catch (verifyError) {
+            console.error("Payment Verification Error:", verifyError);
+            setPaymentError('Payment verification failed. Please contact support.');
+          }
         },
         prefill: {
-          name: "Harsh Balam",
-          email: "harsh@example.com",
-          contact: "9999999999",
+          name: userData.name,
+          email: userData.email,
+          contact: userData.contact?.phone_no || ''
+        },
+        notes: {
+          product_id: product._id,
+          seller_id: product.seller?._id
         },
         theme: {
-          color: "#28a745",
+          color: "#28a745"
         },
+        modal: {
+          ondismiss: () => {
+            setIsPaymentProcessing(false);
+          }
+        }
       };
 
+      // Open Razorpay payment modal
       const razorpay = new window.Razorpay(options);
       razorpay.open();
     } catch (error) {
       console.error("Payment Error:", error);
-     
+      setPaymentError(error.response?.data?.message || 'Payment processing failed');
     } finally {
-      
+      setIsPaymentProcessing(false);
     }
   };
 
@@ -386,7 +469,20 @@ const ProductScreen = ({ match, history }) => {
 
         </>
       )}
-      
+      {paymentError && (
+        <Alert 
+          variant="danger" 
+          onClose={() => setPaymentError(null)} 
+          dismissible
+        >
+          {paymentError}
+        </Alert>
+      )}
+      <Button onClick={handlePayment}
+      disabled={isPaymentProcessing || !razorpayLoaded || !userData}
+      >
+        {isPaymentProcessing ? 'Processing...' : 'Buy Now'}
+      </Button>
     </>
   );
 };
