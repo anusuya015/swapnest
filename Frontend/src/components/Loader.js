@@ -21,4 +21,3 @@ const Loader = () => {
 }
 
 export default Loader
-//this is also very nice as no image is required locally

@@ -193,7 +193,7 @@ const ProductScreen = ({ match, history }) => {
         key: process.env.REACT_APP_RAZORPAY_KEY_ID || "rzp_test_dkrO59FMp7ggDP",
         amount: product?.Cost?.price * 100, // Amount in paisa
         currency: "INR",
-        name: "SecondHand Marketplace",
+        name: "SwapNest",
         description: `Purchase of ${product.name}`,
         order_id: data.orderId,
         handler: async function (response) {
@@ -224,7 +224,7 @@ const ProductScreen = ({ match, history }) => {
           seller_id: product.seller?._id
         },
         theme: {
-          color: "#28a745"
+          color: "#205781"
         },
         modal: {
           ondismiss: () => {
@@ -248,7 +248,7 @@ const ProductScreen = ({ match, history }) => {
   
   return (
     <>
-      <Link to="/" className="btn btn-success my-3">
+      <Link to="/" className="btn my-3 mx-2"  style={{ backgroundColor: "#205781", color: "white" }}>
         Go Back
       </Link>
       {userData && userData._id === product.user && (
@@ -335,7 +335,7 @@ const ProductScreen = ({ match, history }) => {
                   <ul>
                     <li>{product?.seller?.sellername}</li>
                     <li>
-                      <button className="emailbutton btn-success" onClick={() => setSendMail(true)}>
+                      <button className="emailbutton" style={{ backgroundColor: "#578FCA",color:"white"}} onClick={() => setSendMail(true)}>
                         Send Email
                       </button>
                     </li>
@@ -478,7 +478,7 @@ const ProductScreen = ({ match, history }) => {
           {paymentError}
         </Alert>
       )}
-      <Button  className='btn btn-success' o onClick={handlePayment}
+      <Button  className='btn-primary' style={{ backgroundColor: "#blue", color: "white" }} onClick={handlePayment}
       disabled={isPaymentProcessing || !razorpayLoaded || !userData}
       >
         {isPaymentProcessing ? 'Processing...' : 'Buy Now'}

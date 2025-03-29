@@ -15,7 +15,7 @@ body{
 }
 .name-label{
     /* border:2px solid red; */
-    background: #8EC188;
+    background: #205781;
     display: inline;
     padding:0.5rem;
     color:white;
@@ -124,7 +124,7 @@ li{
 }
 .details{
  padding: 0.3rem;
-  background: #4f876e;
+  background: #205781;
   margin-left: -15px;
   margin-right: -16px;
   color:white;

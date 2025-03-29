@@ -17,7 +17,7 @@ const Header = () => {
 
   return (
     <header>
-      <Navbar style={{ backgroundColor: '#274029' }} variant='dark' expand='lg' collapseOnSelect>
+      <Navbar style={{ backgroundColor: '#0C0950' }} variant='dark' expand='lg' collapseOnSelect>
         <Container>
           <LinkContainer to='/'>
             <Navbar.Brand >
@@ -26,7 +26,6 @@ const Header = () => {
           </LinkContainer>
           <Navbar.Toggle aria-controls='basic-navbar-nav' />
           <Navbar.Collapse id='basic-navbar-nav'>
-            {/* Search Box with white background */}
             <Route render={({ history }) => <SearchBox history={history} />} />
 
             <Nav className='ml-auto'>

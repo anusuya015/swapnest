@@ -13,13 +13,13 @@ import { listProducts } from "../actions/productActions";
 const Landing = ({ match }) => {
   const keyword = match.params.keyword;
   const pageNumber = match.params.pageNumber || 1;
-  const [selectedCategory, setSelectedCategory] = useState("All Categories"); // ✅ Default: All
+  const [selectedCategory, setSelectedCategory] = useState("All Categories"); // 
 
   const dispatch = useDispatch();
   const productList = useSelector((state) => state.productList);
   const { loading, error, products, page, pages } = productList;
   const userLogin = useSelector((state) => state.userLogin);
-  const { userData } = userLogin; // ✅ Get user data for "SELL" button condition
+  const { userData } = userLogin; // 
 
   useEffect(() => {
     dispatch(listProducts(keyword, pageNumber, selectedCategory));
@@ -32,14 +32,14 @@ const Landing = ({ match }) => {
     <>
       <Meta />
       {keyword && (
-        <Link className="btn btn-success" to="/">
+        <Link className="btn " to="/" style={{ backgroundColor: "#205781", color: "white" }}>
           Go Back
         </Link>
       )}
       
       {/* ✅ Category Dropdown */}
       <Dropdown className="mb-3">
-        <Dropdown.Toggle variant="success" id="dropdown-basic">
+        <Dropdown.Toggle style={{ backgroundColor: "#3674B5", borderColor: "#ff5733", color: "white" }}  id="dropdown-basic">
           {selectedCategory}
         </Dropdown.Toggle>
 

@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { Form, Button } from "react-bootstrap";
-import styled from "styled-components";  // Import styled-components
-
-// Styled component for the input field to change placeholder color
+import styled from "styled-components";  
 const CustomInput = styled(Form.Control)`
   &::placeholder {
     color: gray;  // Set the placeholder text color to white
@@ -30,7 +28,7 @@ const SearchBox = ({ history }) => {
         placeholder="Search Products..."
         className="mr-sm-2 ml-sm-5"
       />
-      <Button type="submit" variant="outline-success" className="p-2">
+      <Button type="submit" className="p-2">
         Search
       </Button>
     </Form>
