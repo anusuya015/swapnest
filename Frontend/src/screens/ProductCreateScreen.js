@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-import { Form, Button } from "react-bootstrap";
+import { Form, Button, Row, Col } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
@@ -81,115 +81,139 @@ const ProductCreateScreen = ({ history }) => {
         <Loader />
       ) : (
         <Form onSubmit={submitHandler}>
-          <Form.Group controlId="name">
-            <Form.Label>Product Name</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Enter product name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
-            />
-          </Form.Group>
+          <Row>
+            <Col md={12} lg={6}>
+              <Form.Group controlId="name">
+                <Form.Label>Product Name</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Enter product name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  required
+                />
+              </Form.Group>
+            </Col>
+            <Col md={12} lg={6}>
+              <Form.Group controlId="category">
+                <Form.Label>Category</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="e.g. Electronics, Books, Furniture"
+                  value={category}
+                  onChange={(e) => setCategory(e.target.value)}
+                  required
+                />
+              </Form.Group>
+            </Col>
+          </Row>
 
-          <Form.Group controlId="images">
-            <Form.Label>Images</Form.Label>
-            <Form.File
-              multiple // Allow multiple file selection
-              onChange={uploadFileHandler}
-              id="image-file"
-              label="Choose Files"
-              custom
-            />
-            {uploading && <Loader />}
-            {images.length > 0 && (
-              <div className="image-preview-container">
-                {images.map((img, index) => (
-                  <img
-                    key={index}
-                    src={img}
-                    alt={`preview-${index}`}
-                    className="preview-image"
-                  />
-                ))}
-              </div>
-            )}
-          </Form.Group>
+          <Row>
+            <Col md={12}>
+              <Form.Group controlId="description">
+                <Form.Label>Description</Form.Label>
+                <Form.Control
+                  as="textarea"
+                  placeholder="Enter product description"
+                  rows="3"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  required
+                />
+              </Form.Group>
+            </Col>
+          </Row>
 
-          <Form.Group controlId="category">
-            <Form.Label>Category</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="e.g. Electronics, Books, Furniture"
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
-              required
-            />
-          </Form.Group>
+          <Row>
+            <Col md={12} lg={6}>
+              <Form.Group controlId="expiresOn">
+                <Form.Label>Listing Expiry Date</Form.Label>
+                <Form.Control
+                  type="date"
+                  value={expiresOn}
+                  onChange={(e) => setExpiresOn(e.target.value)}
+                  required
+                />
+              </Form.Group>
+            </Col>
+            <Col md={12} lg={6}>
+              <Form.Group controlId="price">
+                <Form.Label>Price (₹)</Form.Label>
+                <Form.Control
+                  type="number"
+                  placeholder="Enter price"
+                  value={price}
+                  onChange={(e) => setPrice(e.target.value)}
+                  required
+                />
+              </Form.Group>
+            </Col>
+          </Row>
 
-          <Form.Group controlId="description">
-            <Form.Label>Description</Form.Label>
-            <Form.Control
-              as="textarea"
-              placeholder="Enter product description"
-              rows="3"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              required
-            />
-          </Form.Group>
+          <Row>
+            <Col md={12} lg={6}>
+              <Form.Group controlId="negotiable">
+                <Form.Check
+                  type="checkbox"
+                  label="Price Negotiable?"
+                  checked={negotiable}
+                  onChange={(e) => setNegotiable(e.target.checked)}
+                />
+              </Form.Group>
+            </Col>
+            <Col md={12} lg={6}>
+              <Form.Group controlId="shippingAddress">
+                <Form.Label>Shipping Address</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Enter shipping location"
+                  value={shippingAddress}
+                  onChange={(e) => setShippingAddress(e.target.value)}
+                  required
+                />
+              </Form.Group>
+            </Col>
+          </Row>
 
-          <Form.Group controlId="expiresOn">
-            <Form.Label>Listing Expiry Date</Form.Label>
-            <Form.Control
-              type="date"
-              value={expiresOn}
-              onChange={(e) => setExpiresOn(e.target.value)}
-              required
-            />
-          </Form.Group>
-
-          <Form.Group controlId="price">
-            <Form.Label>Price (₹)</Form.Label>
-            <Form.Control
-              type="number"
-              placeholder="Enter price"
-              value={price}
-              onChange={(e) => setPrice(e.target.value)}
-              required
-            />
-          </Form.Group>
-
-          <Form.Group controlId="negotiable">
-            <Form.Check
-              type="checkbox"
-              label="Price Negotiable?"
-              checked={negotiable}
-              onChange={(e) => setNegotiable(e.target.checked)}
-            />
-          </Form.Group>
-
-          <Form.Group controlId="shippingAddress">
-            <Form.Label>Shipping Address</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Enter shipping location"
-              value={shippingAddress}
-              onChange={(e) => setShippingAddress(e.target.value)}
-              required
-            />
-          </Form.Group>
-
-          <Form.Group controlId="shippingCharge">
-            <Form.Label>Shipping Charge (₹)</Form.Label>
-            <Form.Control
-              type="number"
-              placeholder="Enter shipping charge"
-              value={shippingCharge}
-              onChange={(e) => setShippingCharge(e.target.value)}
-              required
-            />
-          </Form.Group>
+          <Row>
+            <Col md={12} lg={6}>
+              <Form.Group controlId="shippingCharge">
+                <Form.Label>Shipping Charge (₹)</Form.Label>
+                <Form.Control
+                  type="number"
+                  placeholder="Enter shipping charge"
+                  value={shippingCharge}
+                  onChange={(e) => setShippingCharge(e.target.value)}
+                  required
+                />
+              </Form.Group>
+            </Col>
+            <Col md={12} lg={6}>
+              <Form.Group controlId="images">
+                <Form.Label>Images</Form.Label>
+                <Form.File
+                  multiple // Allow multiple file selection
+                  onChange={uploadFileHandler}
+                  id="image-file"
+                  label="Choose Files"
+                  custom
+                />
+                {uploading && <Loader />}
+                {images.length > 0 && (
+                  <div className="image-preview-container">
+                    {images.map((img, index) => (
+                      <img
+                        key={index}
+                        src={img}
+                        alt={`preview-${index}`}
+                        className="preview-image"
+                      />
+                    ))}
+                  </div>
+                )}
+              </Form.Group>
+            </Col>
+          </Row>
 
           <Button type="submit" variant="primary">
             Upload Product

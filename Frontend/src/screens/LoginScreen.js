@@ -59,7 +59,7 @@ const LoginScreen = ({ location, history }) => {
           {/* here redirect is like storing previous request 
           if i am not logged in and then click on add to cart item then it will redirect me to 
           login page and if i am not registerd then i need to register and after registration i will be
-          again redirected to shipping page  */}
+          again redirected to shopping page  */}
           <Link
             className='underlined1 '
             to={redirect ? `/register?redirect=${redirect}` : '/register'}

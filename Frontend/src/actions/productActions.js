@@ -44,15 +44,17 @@ export const deleteProductReview = (productId, reviewId) => async (dispatch, get
 };
 // ✅ Fetch all products with search & pagination
 export const listProducts =
-  (keyword = "", pageNumber = "") =>
+  (keyword = "", pageNumber = "", category = "All") =>
   async (dispatch) => {
     try {
-      dispatch({ type: PRODUCT_DETAILS_RESET });
       dispatch({ type: PRODUCT_LIST_REQUEST });
 
-      const { data } = await axios.get(
-        `/api/products?keyword=${keyword}&pageNumber=${pageNumber}`
-      );
+      let url = `/api/products?keyword=${keyword}&pageNumber=${pageNumber}`;
+      if (category && category !== "All Categories") url += `&category=${encodeURIComponent(category)}`;
+
+      console.log("Fetching URL:", url); // ✅ Debugging
+
+      const { data } = await axios.get(url);
 
       dispatch({ type: PRODUCT_LIST_SUCCESS, payload: data });
     } catch (error) {

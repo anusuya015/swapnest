@@ -1,0 +1,71 @@
+/* AboutUsScreen.css */
+
+.about-body {
+    padding: 50px 15px;
+  }
+  
+  .about-text {
+    text-align: left; /* Align text to the left */
+  }
+  .about-description{
+    font-size: 1.2rem;
+  }
+  .services-title, .contact-title, .info-title {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: bold;
+  }
+  
+  .service-card {
+    transition: transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  
+  .service-card .card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Ensures equal spacing between icon, title, and text */
+  }
+  
+  .service-card:hover {
+    transform: translateY(-5px); /* Slight lift effect on hover */
+  }
+  
+  .service-icon {
+    font-size: 2rem;
+    color: #205781; /* Green color for icons */
+  }
+  
+  .service-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-top: 15px; /* Adds a small margin for spacing */
+  }
+  
+  .service-text {
+    font-size: 1rem;
+    color: #555;
+  }
+  
+  .contact-info, .info-text {
+    text-align: left;
+    font-size: 1.2rem;
+  }
+  
+  .contact-details a {
+    color: #007bff;
+  }
+  
+  .contact-details a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Ensure the cards stay the same size */
+  @media (max-width: 768px) {
+    .service-card {
+      margin-bottom: 15px;
+    }
+  }
+  

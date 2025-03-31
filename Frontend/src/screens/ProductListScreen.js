@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { LinkContainer } from "react-router-bootstrap";
-import { Table, Button } from "react-bootstrap";
+import { Table, Button, Row, Col } from "react-bootstrap";
 import Paginate from "../components/Paginate";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
@@ -49,48 +49,54 @@ const ProductListScreen = ({ history, match }) => {
         <Message variant="danger">{error}</Message>
       ) : (
         <>
-          <Table striped bordered hover responsive className="table-sm">
-            <thead>
-              <tr>
-                <th>SN</th>
-                <th>ID</th>
-                <th>NAME</th>
-                <th>PRICE</th>
-                <th>CATEGORY</th>
-                <th>OWNER</th>
-                <th>CREATED ON</th>
-                <th>ACTIONS</th>
-              </tr>
-            </thead>
-            <tbody>
-              {products.map((product, index) => (
-                <tr key={product._id}>
-                  <td>{index + 1 + (pageNumber - 1) * 10}</td>
-                  <td>{product._id}</td>
-                  <td>{product.name}</td>
-                  <td>Rs {product?.Cost?.price || 0}</td>
-                  <td>{product.category}</td>
-                  <td>{product.seller?.sellername || "N/A"}</td>
-                  <td>{product.createdAt?.substring(0, 10)}</td>
-                  <td>
-                    <LinkContainer to={`/admin/product/${product._id}/edit`}>
-                      <Button variant="light" className="btn-sm">
-                        <i className="fas fa-edit"></i>
-                      </Button>
-                    </LinkContainer>
-                    <Button
-                      variant="danger"
-                      className="btn-sm"
-                      onClick={() => deleteHandler(product._id)}
-                    >
-                      <i className="fas fa-trash"></i>
-                    </Button>
-                  </td>
+          <div className="table-responsive">
+            <Table striped bordered hover responsive className="table-sm">
+              <thead>
+                <tr>
+                  <th>SN</th>
+                  <th>ID</th>
+                  <th>NAME</th>
+                  <th>PRICE</th>
+                  <th>CATEGORY</th>
+                  <th>OWNER</th>
+                  <th>CREATED ON</th>
+                  <th>ACTIONS</th>
                 </tr>
-              ))}
-            </tbody>
-          </Table>
-          <Paginate pages={pages} page={page} isAdmin={true} />
+              </thead>
+              <tbody>
+                {products.map((product, index) => (
+                  <tr key={product._id}>
+                    <td>{index + 1 + (pageNumber - 1) * 10}</td>
+                    <td>{product._id}</td>
+                    <td>{product.name}</td>
+                    <td>Rs {product?.Cost?.price || 0}</td>
+                    <td>{product.category}</td>
+                    <td>{product.seller?.sellername || "N/A"}</td>
+                    <td>{product.createdAt?.substring(0, 10)}</td>
+                    <td>
+                      <LinkContainer to={`/admin/product/${product._id}/edit`}>
+                        <Button variant="light" className="btn-sm">
+                          <i className="fas fa-edit"></i>
+                        </Button>
+                      </LinkContainer>
+                      <Button
+                        variant="danger"
+                        className="btn-sm ml-2"
+                        onClick={() => deleteHandler(product._id)}
+                      >
+                        <i className="fas fa-trash"></i>
+                      </Button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          </div>
+          <Row className="d-flex justify-content-center">
+            <Col xs={12} className="text-center">
+              <Paginate pages={pages} page={page} isAdmin={true} />
+            </Col>
+          </Row>
         </>
       )}
     </>

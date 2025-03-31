@@ -15,7 +15,7 @@ body{
 }
 .name-label{
     /* border:2px solid red; */
-    background: cadetblue;
+    background: #205781;
     display: inline;
     padding:0.5rem;
     color:white;
@@ -124,17 +124,13 @@ li{
 }
 .details{
  padding: 0.3rem;
-  background: rgb(13, 122, 150);
+  background: #205781;
   margin-left: -15px;
   margin-right: -16px;
   color:white;
   /* min-height: 1000px; */
 }
-.detailsdescription{
-  /* min-height: 1000px; */
-  /* border: 2px solid red; */
-  /* overflow: scroll; */
-}
+
 .setheight{
   max-height: 160px;
 }
@@ -167,7 +163,7 @@ margin-right: 0.2rem;
 }
 .fa-times{
   margin-right: 0.2rem;
-  color:red;
+  color:#53A36B;
 }
 
 .underlined1 span{
@@ -196,7 +192,7 @@ color:white;
 }
 .text-area1{
   margin:0px -15px;
-  background: rgb(13, 122, 150);
+  background: #53A36B;
   color:white;
   padding-left: 15px;
   /* padding-bottom:1px; */

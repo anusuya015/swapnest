@@ -1,39 +1,86 @@
 import React from "react";
-import { Row, Col, Button } from "react-bootstrap";
+import { Row, Col, Card } from "react-bootstrap";
+import { FaPhoneAlt, FaCheckCircle, FaEnvelope, FaRecycle } from "react-icons/fa";
+import { BsFillGearFill } from "react-icons/bs";
+import "./AboutUsScreen.css"; // Add custom styles here
 
 const AboutUsScreen = () => {
   return (
-    <div className="aboutbody">
-      <Row md={3}>
-        <Col md={3}></Col>
-        <Col md={6} className="aboutpage">
-          <h1>Who are We?</h1>
-          <p>
-            Actually We are not any professionals. This website has been created
-            for the purpose of aiding students for buying and selling the notes
-            and other items that they no longer need which might be useful for
-            other new students. We take no charge for this. What we do is just
-            aid in establishing the communication between buyer and seller.These
-            can include: notes, drawing instruments, utensils & furnitures
-            specially by students who are on the verge of leaving campus sooner
-            or later.
+    <div className="about-body">
+      {/* About Us Section */}
+      <Row className="about-section">
+        <Col xs={12} md={10} lg={8} className="about-text mx-auto">
+          <p className="about-description">
+            Welcome to <strong>SwapNest</strong>, a community-driven platform designed to help people buy and sell second-hand goods. Our goal is to provide an easy-to-use, sustainable marketplace where items such as furniture, appliances, stationery, and more can be sold and repurposed. We aim to foster a circular economy, allowing goods that are no longer in use to find new life in a way that is both practical and eco-friendly.
           </p>
         </Col>
-        <Col md={3}></Col>
       </Row>
-      <Row>
-        <Col md={3}></Col>
-        <Col md={6} className="aboutpage1">
-          <h3>Contact Details</h3>
-          <i className="fas fa-phone"></i> 180020204888
-          <br />
-          <i className="fas fa-envelope-square"></i>{" "}
-          <a target="_blank" href={`mailto:secondhandgoods@gmail.com`}>
-            secondhandgoods@gmail.com
-          </a>
-          <br />
+
+      {/* Services Section (Cards with animations) */}
+      <Row className="services-section">
+        <Col xs={12} md={10} lg={8} className="mx-auto">
+          <h2 className="services-title">What We Provide</h2>
+          <Row>
+            <Col sm={12} md={6} lg={4} className="mb-4">
+              <Card className="service-card h-100">
+                <Card.Body>
+                  <FaRecycle className="service-icon" />
+                  <Card.Title className="service-title">Sustainable Marketplace</Card.Title>
+                  <Card.Text>
+                    Buy and sell second-hand goods, giving items a second life. Join our platform for a more sustainable and eco-friendly way to shop!
+                  </Card.Text>
+                </Card.Body>
+              </Card>
+            </Col>
+            <Col sm={12} md={6} lg={4} className="mb-4">
+              <Card className="service-card h-100">
+                <Card.Body>
+                  <FaCheckCircle className="service-icon" />
+                  <Card.Title className="service-title">Free Listing</Card.Title>
+                  <Card.Text>
+                    List your items for sale with no fees or commissions! ReuseIt allows you to easily list and sell items to others.
+                  </Card.Text>
+                </Card.Body>
+              </Card>
+            </Col>
+            <Col sm={12} md={6} lg={4} className="mb-4">
+              <Card className="service-card h-100">
+                <Card.Body>
+                  <BsFillGearFill className="service-icon" />
+                  <Card.Title className="service-title">Simple and Easy-to-Use</Card.Title>
+                  <Card.Text>
+                    Our platform is designed to be user-friendly, making the process of buying and selling smooth and hassle-free.
+                  </Card.Text>
+                </Card.Body>
+              </Card>
+            </Col>
+          </Row>
         </Col>
-        <Col md={3}></Col>
+      </Row>
+
+      {/* Contact Us Section */}
+      <Row className="contact-section">
+        <Col xs={12} md={10} lg={8} className="mx-auto contact-info">
+          <h3 className="contact-title">Contact Us</h3>
+          <p className="contact-details">
+            <FaPhoneAlt className="contact-icon" /> <strong>Phone:</strong> 1800 2020 4888
+            <br />
+            <FaEnvelope className="contact-icon" /> <strong>Email:</strong>
+            <a href="mailto:secondhandgoods@gmail.com" className="contact-email">
+              secondhandgoods@gmail.com
+            </a>
+          </p>
+        </Col>
+      </Row>
+
+      {/* Additional Information Section */}
+      <Row className="info-section">
+        <Col xs={12} md={10} lg={8} className="mx-auto info-text">
+          <h3 className="info-title">Additional Information</h3>
+          <p className="info-description">
+            At SwapNest, we strive to create a community-driven platform where goods that are no longer in use can find new homes. By connecting buyers and sellers, we help reduce waste and promote sustainability.
+          </p>
+        </Col>
       </Row>
     </div>
   );
