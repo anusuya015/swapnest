@@ -17,8 +17,8 @@ connectDB();
 const app = express();
 app.use(express.json());
 app.use(cors({
-  origin: "http://localhost:3000",   // Your React app's URL
-  methods: ["GET", "POST"],
+  origin: "https://swapnest-frontend.onrender.com",   // Your React app's URL
+  methods: ["GET", "POST","PUT", "DELETE"],
   credentials: true
 }));
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
