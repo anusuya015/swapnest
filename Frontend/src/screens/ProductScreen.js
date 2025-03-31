@@ -183,7 +183,7 @@ const ProductScreen = ({ match, history }) => {
       const receipt = `order_${product._id.slice(-20)}_${Date.now()}`.slice(0, 40);
 
       // Step 1: Create Order
-      const { data } = await axios.post("http://localhost:5000/payment/create-order", {
+      const { data } = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/payment/create-order`, {, {
         amount: product?.Cost?.price,
         currency: "INR",
         receipt: receipt,
@@ -199,7 +199,7 @@ const ProductScreen = ({ match, history }) => {
         handler: async function (response) {
           try {
             // Step 2: Verify Payment
-            const verifyRes = await axios.post("http://localhost:5000/payment/verify", {
+           const { data } = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/payment/create-order`, {, {
               razorpay_order_id: response.razorpay_order_id,
               razorpay_payment_id: response.razorpay_payment_id,
               razorpay_signature: response.razorpay_signature,
