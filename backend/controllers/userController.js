@@ -208,6 +208,23 @@ const registerUser = asyncHandler(async (req, res) => {
   //   throw new Error('No token found')
   // }
 });
+const loginUser = asyncHandler(async (req, res) => {
+  const { email, password } = req.body;
+  const user = await User.findOne({ email });
+
+  if (user && (await user.matchPassword(password))) {
+    res.json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      isAdmin: user.isAdmin,
+      token: generateToken(user._id), // 🔥 Make sure token is sent
+    });
+  } else {
+    res.status(401);
+    throw new Error('Invalid email or password');
+  }
+});
 
 const emailSend = asyncHandler(async (req, res) => {
   const { receiver, text, name, address, productName, email, phone_no } =
@@ -316,4 +333,5 @@ export {
   updateUserProfile,
   getUserById,
   verificationLink,
+  loginUser,
 };

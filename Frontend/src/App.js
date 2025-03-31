@@ -15,7 +15,7 @@ import AboutUsScreen from '../src/screens/AboutUsScreen'
 import NotFoundScreen from './screens/NotFoundScreen'
 import ProductCreateScreen from '../src/screens/ProductCreateScreen'
 import EmailVerificationScreen from '../src/screens/EmailVerificationScreen'
-
+import MyOrdersScreen from '../src/screens/MyOrdersScreen'
 const App = () => {
   return (
     <Router>
@@ -36,6 +36,7 @@ const App = () => {
               <Route path='/login' component={LoginScreen} exact />
               <Route path='/register' component={RegisterScreen} exact />
               <Route path='/about' component={AboutUsScreen} exact />
+              <Route path="/myorders" component={MyOrdersScreen} exact/> 
               <Route path='/product/:id' component={ProductScreen} exact />
               <Route
                 path='/admin/userlist'

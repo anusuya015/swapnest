@@ -33,24 +33,28 @@ import {
   USER_VERIFICATION_LINK_RESET,
 } from '../types/userConstants'
 
+
+
 export const login = (email, password) => async (dispatch) => {
   try {
-    dispatch({ type: USER_LOGIN_REQUEST })
+    const response = await fetch('/api/users/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password }),
+    });
 
-    const config = { headers: { 'Content-Type': 'application/json' } }
+    const data = await response.json();
 
-    const { data } = await axios.post('/api/users/login', { email, password }, config)
-
-    dispatch({ type: USER_LOGIN_SUCCESS, payload: data })
-
-    localStorage.setItem('userData', JSON.stringify(data))
+    if (response.ok) {
+      dispatch({ type: USER_LOGIN_SUCCESS, payload: data }); // 🔥 Ensure token is in data
+    } else {
+      dispatch({ type: USER_LOGIN_FAIL, payload: data.message });
+    }
   } catch (error) {
-    dispatch({
-      type: USER_LOGIN_FAIL,
-      payload: error.response?.data.message || error.message,
-    })
+    dispatch({ type: USER_LOGIN_FAIL, payload: error.message });
   }
-}
+};
+
 
 // Logout user
 export const logout = () => (dispatch) => {

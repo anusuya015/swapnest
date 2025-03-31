@@ -15,6 +15,8 @@ const LoginScreen = ({ location, history }) => {
   const redirect = location.search ? location.search.split('=')[1] : '/'
   useEffect(() => {
     if (userData) {
+      localStorage.setItem('token', userData.token)  
+      localStorage.setItem('userInfo', JSON.stringify(userData))
       history.push(redirect)
     }
   }, [history, userData, redirect])

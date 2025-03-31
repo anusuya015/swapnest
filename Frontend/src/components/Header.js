@@ -41,6 +41,9 @@ const Header = () => {
                       Profile
                     </NavDropdown.Item>
                   </LinkContainer>
+                  <LinkContainer to="/myorders">
+                      <NavDropdown.Item>My Orders</NavDropdown.Item>
+                  </LinkContainer>
                   <NavDropdown.Item onClick={logoutHandler}>
                     <FaSignOutAlt className='mr-2' />
                     Logout
