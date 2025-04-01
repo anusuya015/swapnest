@@ -34,10 +34,10 @@ import {
 } from '../types/userConstants'
 
 
-
+const BACKEND_URL = "https://swapnest-backend.onrender.com";  
 export const login = (email, password) => async (dispatch) => {
   try {
-    const response = await fetch('/api/users/login', {
+    const response = await fetch(`${BACKEND_URL}/api/users/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password }),
@@ -75,7 +75,7 @@ export const verify = (name, email, password, phone_no, address) => async (dispa
     const config = { headers: { 'Content-Type': 'application/json' } }
 
     const { data } = await axios.post(
-      '/api/users/verificationlink',
+      `${BACKEND_URL}/api/users/verificationlink`,
       { name, email, password, contact: { phone_no }, address },
       config
     )
@@ -96,7 +96,7 @@ export const register = (token) => async (dispatch) => {
 
     const config = { headers: { 'Content-Type': 'application/json' } }
 
-    const { data } = await axios.post('/api/users', { token }, config)
+    const { data } = await axios.post(`${BACKEND_URL}/api/users`, { token }, config)
 
     dispatch({ type: USER_REGISTER_SUCCESS, payload: data })
     dispatch({ type: USER_LOGIN_SUCCESS, payload: data })
@@ -124,7 +124,7 @@ export const sendEmail = (receiver, text, name, address, productName, email, pho
     }
 
     const { data } = await axios.post(
-      '/api/users/email',
+      `${BACKEND_URL}/api/users/email`,
       { receiver, text, name, address, productName, email, phone_no },
       config
     );
@@ -151,7 +151,7 @@ export const listUsers = () => async (dispatch, getState) => {
     const { userLogin: { userData } } = getState()
     const config = { headers: { Authorization: `Bearer ${userData.token}` } }
 
-    const { data } = await axios.get('/api/users', config)
+    const { data } = await axios.get(`${BACKEND_URL}/api/users`, config)
 
     dispatch({ type: USER_LIST_SUCCESS, payload: data })
   } catch (error) {
@@ -170,7 +170,7 @@ export const deleteUser = (id) => async (dispatch, getState) => {
     const { userLogin: { userData } } = getState()
     const config = { headers: { Authorization: `Bearer ${userData.token}` } }
 
-    await axios.delete(`/api/users/${id}`, config)
+    await axios.delete(`${BACKEND_URL}/api/users/${id}`, config)
 
     dispatch({ type: USER_DELETE_SUCCESS })
   } catch (error) {
@@ -194,7 +194,7 @@ export const updateUser = (user) => async (dispatch, getState) => {
       },
     }
 
-    const { data } = await axios.put(`/api/users/${user._id}`, user, config)
+    const { data } = await axios.put(`${BACKEND_URL}/api/users/${user._id}`, user, config)
 
     dispatch({ type: USER_UPDATE_SUCCESS, payload: data })
   } catch (error) {
@@ -213,7 +213,7 @@ export const getUserDetails = (id) => async (dispatch, getState) => {
     const { userLogin: { userData } } = getState()
     const config = { headers: { Authorization: `Bearer ${userData.token}` } }
 
-    const { data } = await axios.get(`/api/users/${id}`, config)
+    const { data } = await axios.get(`${BACKEND_URL}/api/users/${id}`, config)
 
     dispatch({ type: USER_DETAILS_SUCCESS, payload: data })
   } catch (error) {
