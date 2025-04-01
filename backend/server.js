@@ -49,7 +49,9 @@ app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
   //  res.send("API is running...");
   //});
 //}
-
+app.get("/", (req, res) => {
+  res.send("Backend API is running... Please use the /api endpoints.");
+});
 app.use((err, req, res, next) => {
   const statusCode = res.statusCode === 200 ? 500 : res.statusCode;
   res.status(statusCode);
