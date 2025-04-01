@@ -21,7 +21,7 @@ import {
   PRODUCT_REVIEW_FAIL,
 } from "../types/productConstants";
 import { PRODUCT_REVIEW_DELETE_SUCCESS, PRODUCT_REVIEW_DELETE_FAIL } from '../types/productConstants';
-
+const BACKEND_URL = "https://swapnest-backend.onrender.com";
 export const deleteProductReview = (productId, reviewId) => async (dispatch, getState) => {
   try {
     const { userLogin: { userData } } = getState();
@@ -32,7 +32,7 @@ export const deleteProductReview = (productId, reviewId) => async (dispatch, get
       },
     };
 
-    await axios.delete(`/api/products/${productId}/reviews/${reviewId}`, config);
+    await axios.delete(`${BACKEND_URL}/api/products/${productId}/reviews/${reviewId}`, config);
 
     dispatch({ type: PRODUCT_REVIEW_DELETE_SUCCESS, payload: reviewId });
   } catch (error) {
@@ -49,7 +49,7 @@ export const listProducts =
     try {
       dispatch({ type: PRODUCT_LIST_REQUEST });
 
-      let url = `/api/products?keyword=${keyword}&pageNumber=${pageNumber}`;
+      let url = `${BACKEND_URL}/api/products?keyword=${keyword}&pageNumber=${pageNumber}`;
       if (category && category !== "All Categories") url += `&category=${encodeURIComponent(category)}`;
 
       console.log("Fetching URL:", url); // ✅ Debugging
@@ -70,7 +70,7 @@ export const listProductDetails = (id) => async (dispatch) => {
   try {
     dispatch({ type: PRODUCT_DETAILS_REQUEST });
 
-    const { data } = await axios.get(`/api/products/${id}`);
+    const { data } = await axios.get(`${BACKEND_URL}/api/products/${id}`);
     dispatch({ type: PRODUCT_DETAILS_SUCCESS, payload: data });
   } catch (error) {
     dispatch({
@@ -95,7 +95,7 @@ export const deleteProduct = (id) => async (dispatch, getState) => {
       },
     };
 
-    await axios.delete(`/api/products/${id}`, config);
+    await axios.delete(`${BACKEND_URL}/api/products/${id}`, config);
 
     dispatch({ type: PRODUCT_DELETE_SUCCESS });
   } catch (error) {
@@ -125,7 +125,7 @@ export const createProduct =
       };
 
       const { data } = await axios.post(
-        `/api/products`,
+        `${BACKEND_URL}/api/products`,
         {
           name,
           images: Array.isArray(images) ? images : [images],
@@ -167,7 +167,7 @@ export const updateProduct =
       };
 
       const { data } = await axios.put(
-        `/api/products/${id}`,
+        `${BACKEND_URL}/api/products/${id}`,
         {
           name,
           images: Array.isArray(images) ? images : [images],
@@ -207,7 +207,7 @@ export const createProductReview =
         },
       };
 
-      await axios.post(`/api/products/${productId}/reviews`, { comment }, config);
+      await axios.post(`${BACKEND_URL}/api/products/${productId}/reviews`, { comment }, config);
 
       dispatch({ type: PRODUCT_REVIEW_SUCCESS });
     } catch (error) {
