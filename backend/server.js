@@ -61,6 +61,23 @@ app.use((err, req, res, next) => {
 });
 
 
+app.post('/api/users/email', async (req, res) => {
+  const { to, subject, text, html } = req.body;
+  const msg = {
+    to: to,
+    from: 'anusuyasudheesan@gmail.com', // Your verified SendGrid sender email
+    subject: subject || 'Default Subject',
+    text: text || 'Default text',
+    html: html || '<strong>Default HTML</strong>',
+  };
+
+  try {
+    await sgMail.send(msg);
+    res.json({ message: 'Email sent successfully!' });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
 
 // Create payment order
 app.use("/payment",paymentRoutes );
