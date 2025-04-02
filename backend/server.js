@@ -21,7 +21,8 @@ app.use(express.json());
 app.use(cors({
   origin: allowedOrigins,   // Your React app's URL
   methods: ["GET", "POST","PUT", "DELETE"],
-  credentials: true
+  credentials: true,
+  allowedHeaders: ["Content-Type", "Authorization"]
 }));
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 app.use("/api/products", productRoutes);
