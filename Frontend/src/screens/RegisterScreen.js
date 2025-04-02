@@ -88,7 +88,7 @@ const RegisterScreen = ({ location, history }) => {
           <Form.Label>
             Mobile No{' '}
             <small className='slanted'>
-              * Be sure to enter a correct 10 digit number starting with 9
+              * Be sure to enter a correct 10 digit number
             </small>
           </Form.Label>
           <Form.Control
